@@ -23,7 +23,6 @@ export default defineComponent({
     });
 
     const numberArray = computed(() => {
-      console.log(numberFormatted.value)
       return numberFormatted.value.toString().split('').map((e) => parseInt(e));
     })
 
@@ -34,6 +33,10 @@ export default defineComponent({
     const tensPlace = computed(() => {
       return numberArray.value[numberArray.value.length - 2];
     });
+
+    const hundredsPlace = computed(() => {
+      return numberArray.value[numberArray.value.length - 3];
+    })
 
     const convertedNumber = computed(() => {
       if (numberFormatted.value === 'NaN' || numberFormatted.value === -1) {
@@ -48,16 +51,36 @@ export default defineComponent({
           1: 'ichi',
           2: 'ni',
           3: 'san',
-          4: 'shi',
+          4: 'yon',
           5: 'go',
           6: 'roku',
-          7: 'shichi',
+          7: 'nana',
           8: 'hachi',
           9: 'kyuu',
           10: 'juu',
+          11: 'hyaku',
+          12: 'byaku',
+          13: 'ppyaku',
+          14: 'yon',
+          15: 'ro'
         }
 
         const romajiKeys = Object.keys(romaji).map((e) => parseInt(e));
+
+        if (hundredsPlace.value) {
+          const hundredsPlaceValue = romajiKeys.find((e) => e === hundredsPlace.value) || -1;
+
+          if (hundredsPlaceValue === 1) {
+            converted.push(romaji[11]);
+          } else if (romaji[hundredsPlaceValue] === 'san') {
+            converted.push(romaji[hundredsPlaceValue], romaji[12]);
+          } else if (romaji[hundredsPlaceValue] === 'roku') {
+            converted.push(romaji[15], romaji[13]);
+          }
+          else {
+            converted.push(romaji[hundredsPlaceValue], romaji[11]);
+          }
+        }
 
         if (tensPlace.value) {
           const tensPlaceValue = romajiKeys.find((e) => e === tensPlace.value) || -1;
@@ -65,6 +88,8 @@ export default defineComponent({
           if (tensPlaceValue === 1) {
             converted.push(romaji[10]);
           } else {
+            // TODO add 40 series with 'yon'
+            // TODO add 70 series with 'nana'
             converted.push(romaji[tensPlaceValue], romaji[10]);
           }
         };
