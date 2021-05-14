@@ -1,9 +1,7 @@
 <template>
-  <h1>Japanumbers</h1>
+  <h1>Japan Number Converter</h1>
   <p>Enter a number to convert to an easy to read Japanese number format!</p>
   <number-converter />
-  <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-  <!-- <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" /> -->
 </template>
 
 <script lang="ts">
