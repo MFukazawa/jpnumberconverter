@@ -9,5 +9,5 @@ test("Successful number format clean", () => {
 });
 
 test("Successful number array creation", () => {
-  expect(numbers.numberArray('123')).toStrictEqual([1, 2, 3]);
+  expect(numbers.numberArray(123)).toStrictEqual([1, 2, 3]);
 });
