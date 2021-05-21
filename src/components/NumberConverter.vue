@@ -15,7 +15,8 @@
 </template>
 
 <script lang="ts">
-import { ref, computed, defineComponent } from 'vue'
+import { ref, computed, defineComponent } from 'vue';
+import * as numbers from '../models/numbers';
 
 export default defineComponent({
   name: 'NumberConverter',
@@ -23,8 +24,7 @@ export default defineComponent({
     const number = ref('');
 
     const numberWithCommas = computed(() => {
-      // TODO get region dynamically
-      return number.value ? new Intl.NumberFormat().format(parseInt(number.value)) : '';
+      return numbers.numberWithCommas(number.value);
     });
 
     const numberFormatted = computed(() => {
