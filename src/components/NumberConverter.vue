@@ -24,7 +24,6 @@ export default defineComponent({
     const number = ref('');
 
     const cleanNumber = () => {
-      console.log('running clean number')
       number.value = number.value.replace(/\D/g,'');
     };
 
@@ -33,9 +32,7 @@ export default defineComponent({
     });
 
     const numberFormatted = computed(() => {
-      const rounded = Math.round(parseInt(number.value));
-
-      return parseInt(rounded.toString().replace(/\D/g,''));
+      return numbers.numberFormatted(number.value);
     });
 
     const numberArray = computed(() => {
