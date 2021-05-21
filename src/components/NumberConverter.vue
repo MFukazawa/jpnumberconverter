@@ -160,7 +160,6 @@ export default defineComponent({
           }
           else {
             converted.push(romaji[millionsPlaceValue], romaji[11]);
-            console.log('else')
           }
         };
 
