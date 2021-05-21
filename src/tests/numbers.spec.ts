@@ -7,3 +7,7 @@ test("Successful number conversion", () => {
 test("Successful number format clean", () => {
   expect(numbers.numberFormatted('123456')).toStrictEqual(123456);
 });
+
+test("Successful number array creation", () => {
+  expect(numbers.numberArray('123')).toStrictEqual([1, 2, 3]);
+});
