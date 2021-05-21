@@ -1,7 +1,7 @@
 <template>
   <div class="number-input">
     <label for="number">Enter a number</label>
-    <input type="text" id="number" name="number" v-model="number">
+    <input type="text" id="number" name="number" v-model="number" @input="cleanNumber">
     <!-- TODO don't display if 0 -->
     <p>{{ numberWithCommas }}</p>
     <p v-if="parseInt(number) !== 0">
@@ -22,6 +22,11 @@ export default defineComponent({
   name: 'NumberConverter',
   setup: () => {
     const number = ref('');
+
+    const cleanNumber = () => {
+      console.log('running clean number')
+      number.value = number.value.replace(/\D/g,'');
+    };
 
     const numberWithCommas = computed(() => {
       return numbers.numberWithCommas(number.value);
@@ -252,7 +257,7 @@ export default defineComponent({
       return largeUnits.includes(value);
     }
 
-    return { number, numberWithCommas, convertedNumber, onesPlace, isLargeUnit }
+    return { number, numberWithCommas, convertedNumber, onesPlace, isLargeUnit, cleanNumber }
   }
 })
 </script>
