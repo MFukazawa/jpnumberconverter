@@ -7,7 +7,7 @@
     <p v-if="parseInt(number) !== 0">
       <span
         v-for="number in convertedNumber"
-        :key="number"
+        :key="number.index"
         :class="{ 'large-unit': isLargeUnit(number) }"
       >{{ number }}</span>
     </p>
@@ -105,6 +105,7 @@ export default defineComponent({
           }
         };
 
+        // 9 digit oku
         if (hundredMillionsPlace.value) {
           const hundredMillionsPlaceValue = romajiKeys.find((e) => e === hundredMillionsPlace.value) || -1;
 
@@ -134,8 +135,6 @@ export default defineComponent({
         if (millionsPlace.value || tenMillionsPlace.value && millionsPlace.value === 0) {
           const millionsPlaceValue = romajiKeys.find((e) => e === millionsPlace.value) || -1;
 
-          // TODO 3748293 is ALL fucked up
-
           if (millionsPlaceValue === -1) {
             converted.push(romaji[20]);
           }
@@ -161,6 +160,7 @@ export default defineComponent({
           }
           else {
             converted.push(romaji[millionsPlaceValue], romaji[11]);
+            console.log('else')
           }
         };
 
