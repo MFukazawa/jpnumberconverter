@@ -2,6 +2,7 @@
   <h1>Japan Number Converter</h1>
   <p>Enter a number to convert to an easy to read Japanese number format!</p>
   <number-converter />
+  <!-- <tester message="This is a component" /> -->
 </template>
 
 <script lang="ts">
@@ -11,9 +12,11 @@ import NumberConverter from './components/NumberConverter.vue'
 export default defineComponent({
   name: 'App',
   components: {
-    NumberConverter
-  },
+    NumberConverter,
+  }
 })
+
+
 </script>
 
 <style>

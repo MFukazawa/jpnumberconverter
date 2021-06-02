@@ -9,7 +9,13 @@
       @input="cleanNumber"
     />
     <!-- TODO don't display if 0 -->
-    <p>{{ numberWithCommas }}</p>
+    <div class="formatted-container">
+      <p class="formatted-number">{{ numberWithCommas }}</p>
+      <template v-for="(digit, index) in units" :key="index">
+        <!-- TODO add increased width every third number to cover comma -->
+        <div v-if="number.length > index + 1" class="unit" :style="{ width: (index + 1) * 1.75 + 'rem' }">{{ digit }}</div>
+      </template>
+    </div>
     <p v-if="parseInt(number) !== 0">
       <span
         v-for="number in romajiArrayNumber"
@@ -53,6 +59,21 @@
     setup: () => {
       const number = ref('');
 
+      const units = ref([
+        'juu',
+        'hyaku',
+        'sen',
+        'man',
+        'juu man',
+        'hyaku man',
+        'sen man',
+        'oku',
+        'juu oku',
+        'hyaku oku',
+        'sen oku',
+        'chou',
+      ]);
+
       const cleanNumber = () => {
         number.value = number.value.replace(/\D/g, '');
       };
@@ -82,6 +103,7 @@
             tenMillionsPlace,
             hundredMillionsPlace,
             billionsPlace,
+            tenBillionsPlace,
           ] = numberArray.reverse();
 
           let romajiArray = [] as Array<string>;
@@ -113,16 +135,28 @@
 
           // const romajiKeys = Object.keys(romaji).map((e) => parseInt(e));
 
+          // 11 digit hyaku oku
+          // if (tenBillionsPlace) {
+          //   if (tenBillionsPlace === 1) {
+          //     romajiArray.push(hyaku, oku);
+          //   } else if (tenBillionsPlace) {
+          //     romajiArray.push(romaji[tenBillionsPlace], hyaku)
+          //   }
+          // }
+
           // 10 digit juu oku
+          // TODO fix for 1234321223
           if (billionsPlace) {
-            if (billionsPlace === 1) {
+            if (billionsPlace === 1 && hundredMillionsPlace === 0) {
               romajiArray.push(juu, oku);
-            } else if (billionsPlace && tenThousandsPlace === 0) {
+            } else if (billionsPlace !== 1 && hundredMillionsPlace === 0) {
               romajiArray.push(
                 romaji[billionsPlace],
                 juu,
-                man
+                oku
               );
+            } else if (billionsPlace === 1 && hundredMillionsPlace !== 0) {
+              romajiArray.push(juu)
             } else {
               romajiArray.push(romaji[billionsPlace], juu);
             }
@@ -130,9 +164,7 @@
 
           // 9 digit oku
           if (hundredMillionsPlace) {
-            if (hundredMillionsPlace) {
-              romajiArray.push(romaji[hundredMillionsPlace], oku);
-            }
+            romajiArray.push(romaji[hundredMillionsPlace], oku);
           }
 
           // 8 digit sen man
@@ -292,6 +324,7 @@
         romajiArrayNumber,
         isLargeUnit,
         cleanNumber,
+        units
       };
     },
   });
@@ -317,5 +350,21 @@
 
   .large-unit {
     font-weight: bold;
+  }
+
+  .formatted-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  p.formatted-number {
+    margin-bottom: 0;
+  }
+
+  .unit {
+    padding: 0 15px;
+    border-left: 1px solid #000;
+    border-bottom: 1px solid #000;
   }
 </style>
